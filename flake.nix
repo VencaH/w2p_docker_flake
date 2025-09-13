@@ -30,6 +30,7 @@
         };
       in {
         packages.default = pythonDeps;
+        packages.web2py_server = pythonDeps;
     });
 }
 
