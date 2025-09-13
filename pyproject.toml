@@ -1,0 +1,20 @@
+[project]
+name = "sprint_planner"
+version = "0.1.0"
+description = "Simple web2py base web app to plan sprint capacity."
+authors = [
+    {name = "Venca H",email = "venca.hyncica@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "pytest (>=8.4.1,<9.0.0)",
+    "python-lorem (>=1.3.0.post3,<2.0.0)",
+    "google-cloud-firestore (>=2.21.0,<3.0.0)",
+    "twisted"
+]
+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
