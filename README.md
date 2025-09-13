@@ -3,7 +3,7 @@
 ## about
 
 Goal of this repository is to keep "slim" version of web2py web server to serve as source for the Docker image and nix package.
-There were changes to the original web2py code, taken from https://github.com/web2py/web2py, aside from removal of some unnecesary components of the repository. For example, the folder scripts. \
+There were changes to the original web2py code, taken from https://github.com/web2py/web2py, aside from removal of some unnecesary components of the repository. For example, the folder scripts. 
 
 ## licence
 
