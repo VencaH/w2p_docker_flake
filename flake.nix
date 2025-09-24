@@ -10,7 +10,10 @@
   let
     mkWeb2pyInterpreter = {system, python, packages}: 
       python.withPackages (
-        ps: self.packages.${system}.web2py_server.propagatedBuildInputs ++ packages
+        ps: with python.pkgs; [
+          google-cloud-firestore
+          twisted
+        ] ++ packages
       );
   in
     flake-utils.lib.eachDefaultSystem (system:
@@ -28,10 +31,8 @@
           nativeBuildInputs = with python.pkgs; [ 
             setuptools 
             wheel
-            pytest
           ];
           propagatedBuildInputs = with python.pkgs; [
-            python-lorem
             google-cloud-firestore
             twisted
           ];
@@ -42,7 +43,11 @@
         packages.web2py_server = pythonDeps;
         apps.web2py_server = 
         let
-          web2pyInterpreter = mkWeb2pyInterpreter {python = pkgs.python3; packages = [];};
+          web2pyInterpreter = mkWeb2pyInterpreter {
+            inherit system;
+            python = pkgs.python3; 
+            packages = [];
+          };
         in { 
           type = "app";
           program =  "${pkgs.writeShellScriptBin "web2py-server" ''
