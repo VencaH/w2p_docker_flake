@@ -21,7 +21,6 @@
 
           nativeBuildInputs = with python.pkgs; [ setuptools wheel ];
           buildInputs = with python.pkgs; [
-            pytest
             python-lorem
             google-cloud-firestore
             twisted
