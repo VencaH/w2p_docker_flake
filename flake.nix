@@ -7,6 +7,12 @@
   };
 
   outputs = { self, nixpkgs, flake-utils, ... }:
+  let
+    mkWeb2pyInterpreter = {system, python, packages}: 
+      python.withPackages (
+        ps: self.packages.${system}.web2py_server.propagatedBuildInputs ++ packages
+      );
+  in
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
@@ -29,16 +35,14 @@
             google-cloud-firestore
             twisted
           ];
-
         };
+
       in {
         packages.default = pythonDeps;
         packages.web2py_server = pythonDeps;
         apps.web2py_server = 
         let
-          web2pyInterpreter = pkgs.python3.withPackages (
-            ps: self.packages.${system}.web2py_server.propagatedBuildInputs
-          );
+          web2pyInterpreter = mkWeb2pyInterpreter {python = pkgs.python3; packages = [];};
         in { 
           type = "app";
           program =  "${pkgs.writeShellScriptBin "web2py-server" ''
@@ -47,6 +51,8 @@
           ''}/bin/web2py-server";
         };
       }
-  );
+  ) // {
+    lib.web2pyInterpreter = mkWeb2pyInterpreter;
+  };
 }
 
