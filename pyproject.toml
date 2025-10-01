@@ -1,9 +1,8 @@
 [project]
 name = "sprint_planner"
 version = "0.1.0"
-description = "Simple web2py base web app to plan sprint capacity."
+description = "Simplified version of web2py web server"
 authors = [
-    {name = "Venca H",email = "venca.hyncica@gmail.com"}
 ]
 readme = "README.md"
 requires-python = ">=3.13"
@@ -12,6 +11,16 @@ dependencies = [
     "twisted"
 ]
 
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+
+[project.scripts]
+web2py = "web2py.cli:web2py"
+anyserver = "web2py.cli:anyserver"
 
 [build-system]
 requires = ["setuptools", "wheel"]

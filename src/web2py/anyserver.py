@@ -13,7 +13,7 @@ import os
 import sys
 import optparse
 import urllib
-from gluon.version import VERSION
+from .gluon.version import VERSION
 
 path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(path)
@@ -56,16 +56,16 @@ class Servers:
 
     @staticmethod
     def rocket(app, address, **options):
-        from gluon.rocket import CherryPyWSGIServer
+        from .gluon.rocket import CherryPyWSGIServer
 
         server = CherryPyWSGIServer(address, app)
         server.start()
 
     @staticmethod
     def rocket_with_repoze_profiler(app, address, **options):
-        from gluon.rocket import CherryPyWSGIServer
+        from .gluon.rocket import CherryPyWSGIServer
         from repoze.profile.profiler import AccumulatingProfileMiddleware
-        from gluon.settings import global_settings
+        from .gluon.settings import global_settings
 
         global_settings.web2py_crontype = "none"
         wrapped = AccumulatingProfileMiddleware(
@@ -332,18 +332,18 @@ def run(
 
         eventlet.monkey_patch()
 
-    import gluon.main
+    from .gluon import main as gmain
 
     if logging:
-        application = gluon.main.appfactory(
-            wsgiapp=gluon.main.wsgibase,
+        application = gmain.appfactory(
+            wsgiapp=gmain.wsgibase,
             logfilename="httpserver.log",
             profiler_dir=profiler,
         )
     else:
-        application = gluon.main.wsgibase
+        application = gmain.wsgibase
     if softcron:
-        from gluon.settings import global_settings
+        from .gluon.settings import global_settings
 
         global_settings.web2py_crontype = "soft"
     getattr(Servers, servername)(application, (ip, int(port)), options=options)
